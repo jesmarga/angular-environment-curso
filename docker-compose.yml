@@ -1,0 +1,29 @@
+name: angular-environment
+services:
+  angular-environment:
+    build:
+      args:
+        name_app: ${NAME_APP}
+      context: ./
+      dockerfile: Dockerfile
+    container_name: angular-app
+    image: angular-environment  
+    ports:
+      - "4200:4200"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./project:/home/node/${NAME_APP}
+    # environment:
+    #   - CHOKIDAR_USEPOLLING=true               # for live reload
+    #   - CHOKIDAR_INTERVAL=1000                 # for live reload
+    #   - CHOKIDAR_TIMEOUT=10000                 # for live reload
+    #   - NODE_ENV=development                   # for live reload  
+    # command: npm run start:dev                  # for live reload             
+    working_dir: /home/node/${NAME_APP}
+    command: tail -f /dev/null
+    networks:
+    - services-angular-environment
+      
+networks:
+  services-angular-environment:
+    driver: bridge  
